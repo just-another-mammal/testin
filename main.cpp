@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include <array>
 #include <cmath>
+#include <stdio.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 //int screen_x = GetSystemMetrics(0);
@@ -45,19 +47,13 @@ int main()
     // create the window
     sf::RenderWindow window(sf::VideoMode({800, 600}), "My window", sf::Style::Default);
     array<sf::Image, img_num> tileImg = imgProcessing();
-    //array<sf::Texture, 28> tilesTexture;
-    //tilesTexture.fill(sf::Texture({99, 64}));
     sf::Texture tilesTexture({99, 64});
-    /*
-    for (int i = 0; i < 28; i++)
-    {
-        sf::Texture tilesTexture[i](tileImg[i], {99, 64});
-        tilesTexture[i].update(tileImg[i]);
-
-    }
-    */
     sf::Sprite tilesSprite(tilesTexture);
-
+    sf::Clock clock;
+    sf::Font font("arial/ARIAL.ttf");
+    sf::Text text(font);
+    text.setFillColor(sf::Color::Red);
+    text.setStyle(sf::Text::Bold | sf::Text::Underlined);
     // run the program as long as the window is open
     while (window.isOpen())
     {
@@ -78,7 +74,7 @@ int main()
         }
         
         
-
+        sf::Time elapsed = clock.restart();
         // clear the window with black color
         window.clear(sf::Color::Black);
 
@@ -89,10 +85,14 @@ int main()
             tilesSprite.setPosition({(i%6)*100.f, floor(i/6.f)*65.f});
         }
 
+        text.setString(to_string(1.f/elapsed.asSeconds()));
+        window.draw(text);
         // draw everything here...
         // window.draw(...);
 
         // end the current frame
+        
         window.display();
+
     }
 }
